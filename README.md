@@ -23,10 +23,10 @@ A minimal Unity test project for the [DisplayXR Unity plugin](https://github.com
 The project depends on the DisplayXR Unity plugin via Unity Package Manager. The dependency is declared in `Packages/manifest.json`:
 
 ```json
-"com.displayxr.unity": "https://github.com/DisplayXR/displayxr-unity.git#upm/v0.7.0"
+"com.displayxr.unity": "https://github.com/DisplayXR/displayxr-unity.git#upm/v1.0.0"
 ```
 
-To test against a different plugin version, edit the URL fragment (`#upm/v0.7.0`) to point at the desired tag, then run `Window → Package Manager → Refresh`.
+To test against a different plugin version, edit the URL fragment (`#upm/v1.0.0`) to point at the desired tag, then run `Window → Package Manager → Refresh`.
 
 To test against a local development build of the plugin, change the dependency to:
 ```json
