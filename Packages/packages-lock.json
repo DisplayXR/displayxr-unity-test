@@ -1,16 +1,17 @@
 {
   "dependencies": {
     "com.displayxr.unity": {
-      "version": "file:/Users/david.fattal/Documents/GitHub/displayxr-unity",
+      "version": "https://github.com/DisplayXR/displayxr-unity.git#upm/v1.1.0",
       "depth": 0,
-      "source": "local",
+      "source": "git",
       "dependencies": {
         "com.unity.xr.openxr": "1.16.1",
         "com.unity.xr.management": "4.4.0"
-      }
+      },
+      "hash": "0000000000000000000000000000000000000000"
     },
     "com.unity.inputsystem": {
-      "version": "1.18.0",
+      "version": "1.19.0",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -45,24 +46,24 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.legacyinputhelpers": {
-      "version": "2.1.13",
+      "version": "3.0.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.modules.vr": "1.0.0",
         "com.unity.modules.xr": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.management": {
-      "version": "4.4.0",
+      "version": "4.5.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.modules.vr": "1.0.0",
         "com.unity.modules.xr": "1.0.0",
+        "com.unity.xr.core-utils": "2.2.1",
         "com.unity.modules.subsystems": "1.0.0",
-        "com.unity.xr.legacyinputhelpers": "2.1.7"
+        "com.unity.xr.legacyinputhelpers": "2.1.11"
       },
       "url": "https://packages.unity.com"
     },

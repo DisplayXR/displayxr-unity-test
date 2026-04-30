@@ -1,9 +1,9 @@
 {
   "dependencies": {
-    "com.displayxr.unity": "https://github.com/DisplayXR/displayxr-unity.git#upm/v1.0.0",
+    "com.displayxr.unity": "https://github.com/DisplayXR/displayxr-unity.git#upm/v1.1.0",
     "com.unity.multiplayer.center": "1.0.1",
     "com.unity.ugui": "2.0.0",
-    "com.unity.xr.management": "4.4.0",
+    "com.unity.xr.management": "4.5.2",
     "com.unity.xr.openxr": "1.16.1",
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.adaptiveperformance": "1.0.0",
