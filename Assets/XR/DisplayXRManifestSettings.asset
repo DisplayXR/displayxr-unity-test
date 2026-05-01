@@ -16,7 +16,7 @@ MonoBehaviour:
   category: 0
   displayMode: auto
   description: Test App for DisplayXR Unity Plugin
-  icon: {fileID: 2800000, guid: d15918b1d2d04ba2acc110010002d10a, type: 3}
-  icon3D: {fileID: 2800000, guid: d15918b1d2d04ba2acc110010003d10b, type: 3}
+  icon: {fileID: 2800000, guid: babbdd269348038489771a2051a3afa5, type: 3}
+  icon3D: {fileID: 2800000, guid: d1a3c08178b3e6442bd56b0b2a1f1e4b, type: 3}
   icon3DLayout: 0
   registerWithDisplayXR: 1
