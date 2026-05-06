@@ -17,22 +17,22 @@ A minimal Unity test project for the [DisplayXR Unity plugin](https://github.com
 2. Open the project in Unity Hub (`File → Open Project`)
 3. Unity will fetch dependencies — this may take a few minutes on first open
 
-### One-time URP setup
+### URP setup
 
-The project ships with the Universal Render Pipeline package in its manifest but
-without a pre-configured pipeline asset (Unity 6's pipeline asset format keeps
-moving and hand-authored assets break across patch versions). Once on first open
-of the project, run the converter:
+The project ships with the Universal Render Pipeline package in its manifest.
+On first import, `Assets/Editor/URPSetupBootstrap.cs` automatically creates an
+XR-friendly URP pipeline asset (`Assets/Settings/URP-Pipeline.asset` with
+`UpscalingFilter=Auto`, MSAA off — both required to keep the OpenXR project
+validator happy) and assigns it to Project Settings → Graphics + Quality.
+
+If the cube renders magenta on first open, the wood-crate material is still
+referencing the Built-in `Standard` shader. Run the URP converter once to
+upgrade materials:
 
 1. `Window → Rendering → Render Pipeline Converter`
-2. In the dropdown choose **Built-in to URP**
-3. Tick *Convert Project Settings* and *Material and Material Reference Upgrade*
-4. Click **Initialize Converters** then **Convert Assets**
-
-This creates `Assets/Settings/URP-*Pipeline.asset` and points
-`Project Settings → Graphics` and `Project Settings → Quality` at it. The cube's
-wood-crate material is upgraded to `Universal Render Pipeline/Lit`. After this
-you don't need to do it again.
+2. Choose **Built-in to URP**
+3. Tick *Material and Material Reference Upgrade*, then *Initialize Converters*
+   and *Convert Assets*
 
 4. Open `Assets/CubeTest.unity` to load the test scene.
 
