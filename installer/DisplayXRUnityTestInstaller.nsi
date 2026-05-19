@@ -52,8 +52,10 @@ ShowUninstDetails show
 !insertmacro VersionCompare
 
 ; Minimum runtime version. Cube-and-rig-switching demo only depends on the
-; baseline stereo pipeline, so a relatively low floor is fine.
-!define MIN_RUNTIME_VERSION "1.5.0"
+; baseline stereo pipeline, so the same floor as the gaussiansplat reference
+; installer (1.3.0) is fine — that's the runtime build where the VK→D3D11
+; KMT-shared-texture / DComp bridge stabilized.
+!define MIN_RUNTIME_VERSION "1.3.0"
 
 ;--------------------------------
 ; UI
@@ -132,13 +134,15 @@ Section "DisplayXR Unity Test" SecApp
     SetOutPath "$APPDATA\DisplayXR\apps"
 
     ; Manifest + icons live together; icon paths inside the manifest are
-    ; resolved relative to the manifest file (per spec §2.3).
-    ;TODO: All three Unity test installers currently drop icon.png/icon_sbs.png
-    ; into the same dir, overwriting each other. Fine for placeholder phase
-    ; (the files are identical). When per-app artwork lands, rename to
-    ; icon_unity_test.png / icon_sbs_unity_test.png and update the manifest.
-    File "${SOURCE_DIR}\installer\icon.png"
-    File "${SOURCE_DIR}\installer\icon_sbs.png"
+    ; resolved relative to the manifest file (per spec §2.3). Source the
+    ; icons from BIN_DIR (Unity bundles icon.png + icon_sbs.png next to
+    ; the exe via its build pipeline) — single source of truth, no
+    ; duplication in the repo. Rename on install so the cube-app art
+    ; doesn't get clobbered by the transparent or 2D-UI installers,
+    ; which still drop generic icon.png/icon_sbs.png. When those repos
+    ; ship per-app art, they should also rename + source from BIN_DIR.
+    File /oname=icon_unity_test.png "${BIN_DIR}\icon.png"
+    File /oname=icon_sbs_unity_test.png "${BIN_DIR}\icon_sbs.png"
 
     ; Generate the manifest with an absolute exe_path. Forward slashes so
     ; the JSON parses with any strict library — the manifest spec accepts
@@ -146,13 +150,13 @@ Section "DisplayXR Unity Test" SecApp
     FileOpen $0 "$APPDATA\DisplayXR\apps\unity_test.displayxr.json" w
     FileWrite $0 '{$\r$\n'
     FileWrite $0 '  "schema_version": 1,$\r$\n'
-    FileWrite $0 '  "name": "DisplayXR Unity Test",$\r$\n'
+    FileWrite $0 '  "name": "DisplayXR-test",$\r$\n'
     FileWrite $0 '  "type": "3d",$\r$\n'
     FileWrite $0 '  "category": "test",$\r$\n'
     FileWrite $0 '  "display_mode": "auto",$\r$\n'
-    FileWrite $0 '  "description": "Unity plugin test app — display-centric vs camera-centric rig demo. Tab cycles rigs.",$\r$\n'
-    FileWrite $0 '  "icon": "icon.png",$\r$\n'
-    FileWrite $0 '  "icon_3d": "icon_sbs.png",$\r$\n'
+    FileWrite $0 '  "description": "Test App for DisplayXR Unity Plugin",$\r$\n'
+    FileWrite $0 '  "icon": "icon_unity_test.png",$\r$\n'
+    FileWrite $0 '  "icon_3d": "icon_sbs_unity_test.png",$\r$\n'
     FileWrite $0 '  "icon_3d_layout": "sbs-lr",$\r$\n'
     ${WordReplace} "$INSTDIR" "\" "/" "+" $1
     FileWrite $0 '  "exe_path": "$1/DisplayXR-test.exe"$\r$\n'
@@ -214,12 +218,11 @@ Section "Uninstall"
 
     ; Remove the registered-mode manifest + icons.
     Delete "$APPDATA\DisplayXR\apps\unity_test.displayxr.json"
-    ;TODO: shared placeholder icon filenames — see install-section TODO.
-    ; When per-app artwork lands, switch these to the renamed files and
-    ; stop deleting the shared icons here (other Unity installers may
-    ; still reference them).
-    Delete "$APPDATA\DisplayXR\apps\icon.png"
-    Delete "$APPDATA\DisplayXR\apps\icon_sbs.png"
+    ; Only delete the cube-app's own icons — the transparent / 2D-UI
+    ; installers still reference shared icon.png / icon_sbs.png, so we
+    ; leave those alone.
+    Delete "$APPDATA\DisplayXR\apps\icon_unity_test.png"
+    Delete "$APPDATA\DisplayXR\apps\icon_sbs_unity_test.png"
     RMDir "$APPDATA\DisplayXR\apps"
 
     ; Remove install dir contents — Unity Player tree has many files
