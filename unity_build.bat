@@ -3,9 +3,16 @@ REM ============================================================
 REM  unity_build.bat - build the Win64 Player for this test repo.
 REM
 REM  Opens the project with Unity in -batchmode and builds the
-REM  scenes listed in Build Settings to Builds\Win64\<exe>, writing
-REM  a log to Logs\unity_build.log. This is the headless equivalent
-REM  of File > Build Settings > Build.
+REM  scenes listed in Build Settings to Builds\Win64\<variant>\<variant>.exe,
+REM  writing a log to Logs\unity_build_<variant>.log. This is the headless
+REM  equivalent of File > Build Settings > Build.
+REM
+REM  Usage:  unity_build.bat [variant]
+REM    variant  Optional build-folder/exe name (default: DisplayXR-test).
+REM             e.g.  unity_build.bat DisplayXR-test-d3d11
+REM             -> Builds\Win64\DisplayXR-test-d3d11\DisplayXR-test-d3d11.exe
+REM             (switch the Standalone graphics API in Player Settings to match
+REM              the variant before building; the API is baked from ProjectSettings.)
 REM
 REM  Override the editor path:  set UNITY_PATH=C:\path\to\Unity.exe
 REM ============================================================
@@ -17,12 +24,16 @@ if "%UNITY_PATH%"=="" set "UNITY_PATH=C:\Program Files\Unity\Hub\Editor\%UNITY_V
 set "PROJECT_PATH=%~dp0"
 if "%PROJECT_PATH:~-1%"=="\" set "PROJECT_PATH=%PROJECT_PATH:~0,-1%"
 
+REM Variant = the build-folder + exe name (arg 1, default DisplayXR-test).
+set "VARIANT=%~1"
+if "%VARIANT%"=="" set "VARIANT=DisplayXR-test"
+
 REM Build into a named subfolder (NOT loose in Win64) so the player and its
 REM _Data/dll sidecars stay self-contained — matches installer\build-installer.bat
-REM (BIN_DIR = Builds\Win64\DisplayXR-test, exe = DisplayXR-test.exe).
-set "OUT_DIR=%PROJECT_PATH%\Builds\Win64\DisplayXR-test"
-set "OUT_EXE=%OUT_DIR%\DisplayXR-test.exe"
-set "LOG=%PROJECT_PATH%\Logs\unity_build.log"
+REM (BIN_DIR = Builds\Win64\<variant>, exe = <variant>.exe).
+set "OUT_DIR=%PROJECT_PATH%\Builds\Win64\%VARIANT%"
+set "OUT_EXE=%OUT_DIR%\%VARIANT%.exe"
+set "LOG=%PROJECT_PATH%\Logs\unity_build_%VARIANT%.log"
 
 if not exist "%UNITY_PATH%" (
     echo ERROR: Unity not found at "%UNITY_PATH%".
